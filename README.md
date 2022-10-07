@@ -1,18 +1,28 @@
-# Salesforce DX Project: Next Steps
+# Active Contacts on Accounts
+## _Uma funcionalidade para a plataforma Salesforce_
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-## How Do You Plan to Deploy Your Changes?
+Essa funcionalidade tem o objetivo de aprendizado para consolidar as técnicas aprendidas no curso https://www.udemy.com/course/salesforce-development/.
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+## Objetivo
 
-## Configure Your Salesforce DX Project
+Implementar um campo (_Active_Contact__C_) no objeto _Account_. Com a finalidade de observar o numero de contatos ativos para cada conta. 
+Para determinar se a conta está ativa, foi criado um campo (_Active__C_)
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+## Funcionamento
 
-## Read All About It
+Para rastrear foi criado um Trigger no objeto _Contact_ e uma classe handler desse Trigger.
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+Racional do Funcionamento
+- Faz uma atualização do campo (Active_Contacts__c) em Account caso seja a primeira execução da classe;
+- Cria um Map para guardar os Ids das Contas afetadas e soma a quantia de contatos ativos (Active__c=true);
+- Faz uma requisição ao banco de dados (SOQL) com os ids das contas filtrados e guarda o valor Active_Contacts__c atual em um Map (para evitar nested loops)
+- Monta uma lista de contas (List<Account>) com os valores de Id e Active_Contacts__c atualizados
+- Atualiza o Banco de dados (DML)
+
+## Autor
+
+Vinicius Alves,
+LinkedIn: https://www.linkedin.com/in/vin%C3%ADcius-alves-050806162/
+TrailHead: https://trailblazer.me/id/vini90a
