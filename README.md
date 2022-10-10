@@ -12,14 +12,14 @@ Para determinar se a conta está ativa, foi criado um campo (_Active__C_)
 
 ## Funcionamento
 
-Para rastrear foi criado um Trigger no objeto _Contact_ e uma classe handler desse Trigger.
+Para rastrear foi criado um Trigger no objeto _Contact_ , uma classe handler desse Trigger; 
+E afim de evitar repetições de códigos e aumentar a legibilidade dele, foi criada outra classe _ContactTriggerService_. Classe responsável por receber um Set<Id> com os Ids das Accounts que serão atualizadas
 
 Racional do Funcionamento
 - Faz uma atualização do campo (Active_Contacts__c) em Account caso seja a primeira execução da classe;
-- Cria um Map para guardar os Ids das Contas afetadas e soma a quantia de contatos ativos (Active__c=true);
-- Faz uma requisição ao banco de dados (SOQL) com os ids das contas filtrados e guarda o valor Active_Contacts__c atual em um Map (para evitar nested loops)
-- Monta uma lista de contas (List<Account>) com os valores de Id e Active_Contacts__c atualizados
-- Atualiza o Banco de dados (DML)
+- Verifica se o campo AccountId do contato inserido não está vazio e o campo alterado foi o de contato ativo
+- Chama a classe Contact TriggerService para atualizar o banco de dados (DML)
+
 
 ## Autor
 
